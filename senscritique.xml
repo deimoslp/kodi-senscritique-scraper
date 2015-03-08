@@ -46,9 +46,6 @@
             <RegExp dest="5+" output="&lt;votes&gt;\1&lt;/votes&gt;" input="$$1">
                 <expression>&lt;span itemprop="ratingCount" class="d-hidden"&gt;([^&lt;]*)&lt;/span&gt;</expression>
             </RegExp>
-            <RegExp dest="5+" output="&lt;genre&gt;\1&lt;/genre&gt;" input="$$1">
-                <expression repeat="yes">&lt;a href="/films/oeuvres/[^-]*--[^"]*" class="d-link-alt"&gt;([^&lt;]*)&lt;/a&gt;</expression>
-            </RegExp>
             <RegExp dest="5+" output="&lt;director&gt;\1&lt;/director&gt;" input="$$1">
                 <expression>&lt;span itemscope itemprop="director" itemtype="http://schema.org/Person"&gt; &lt;a href="[^"]*" itemprop="url"&gt; &lt;span itemprop="name"&gt;([^&lt;]*)&lt;/span&gt;&lt;/a&gt;&lt;/span&gt;</expression>
             </RegExp>
@@ -66,7 +63,25 @@
 [ \t]*([^m]*min)
 </expression>
             </RegExp>
+            <RegExp dest="5+" output="&lt;url function=&quot;GetAdditionalDetails&quot;&gt;http://www.senscritique.com/film/\1/\2/details&lt;/url&gt;" input="$$1">
+                <expression>&lt;a href="/film/([^/]*)/([^/]*)/details"&gt;</expression>
+            </RegExp>
             <expression noclean="1"></expression>
         </RegExp>
     </GetDetails>
+    <GetAdditionalDetails dest="3">
+        <RegExp dest="3" output="&lt;details&gt;\1&lt;/details&gt;" input="$$5">
+            <RegExp dest="5+" output="&lt;actor&gt;&#xA;&lt;thumb&gt;\1&lt;/thumb&gt;&#xA;&lt;name&gt;\2&lt;/name&gt;&#xA;&lt;role&gt;\3&lt;/role&gt;&#xA;&lt;/actor&gt;" input="$$1">
+                <expression repeat="yes">\t*&lt;img  itemprop="image" src="([^"]*)" [^&gt;]*&gt;
+\t*&lt;div class="ecot-contact-caption" &gt;
+\t*&lt;strong class="ecot-contact-label" itemprop="name"&gt;([^&lt;]*)&lt;/strong&gt;
+\t*&lt;span class="ecot-contact-role"&gt;([^&lt;]*)&lt;/span&gt;</expression>
+            </RegExp>
+            <RegExp dest="5+" output="&lt;genre&gt;\1&lt;/genre&gt;" input="$$1">
+                <expression repeat="yes">&lt;li class="pde-detail"&gt;
+\t*&lt;a href="/films/oeuvres/[^"]*"&gt;([^&lt;]*)&lt;/a&gt;</expression>
+            </RegExp>
+            <expression noclean="1"></expression>
+        </RegExp>
+    </GetAdditionalDetails>
 </scraper>
