@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<scraper language="en" thumb="icon.png" date="2015-03-05" content="movies" framework="1.1" name="senscritique">
+    <NfoUrl dest="3">
+        <RegExp dest="3" output="&lt;url&gt;\1&lt;/url&gt;" input="$$1">
+            <expression>(http://www.senscritique\.com/film/.*)</expression>
+        </RegExp>
+    </NfoUrl>
+    <CreateSearchUrl dest="3">
+        <RegExp dest="3" output="&lt;url&gt;http://www.senscritique.com/recherche?query=\1&amp;amp;filter=movies&lt;/url&gt;" input="$$1%20$$2">
+            <expression></expression>
+        </RegExp>
+    </CreateSearchUrl>
+    <GetSearchResults dest="3">
+        <RegExp dest="3" output="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;&#xA;&lt;results sorted=&quot;yes&quot;&gt;\1&lt;/results&gt;" input="$$5">
+            <RegExp dest="5+" output="&lt;entity&gt;&#xA;&lt;title&gt;\2&lt;/title&gt;&#xA;&lt;url&gt;http://senscritique.com\1&lt;/url&gt;&#xA;&lt;year&gt;\3&lt;/year&gt;&#xA;&lt;/entity&gt;" input="$$1">
+                <expression repeat="yes" noclean="1">&lt;a href="(/film/[^/]*/[0-9]*)" class="elco-anchor" [^&gt;]*&gt;([^&lt;]*)&lt;/a&gt;
+[\t ]*			
+[\t ]*&lt;span class="elco-date"&gt;\(([^&lt;]*)\)&lt;/span&gt;</expression>
+            </RegExp>
+            <expression noclean="1"></expression>
+        </RegExp>
+    </GetSearchResults>
+    <GetDetails dest="3">
+        <RegExp dest="3" output="&lt;details&gt;\1&lt;/details&gt;" input="$$5">
+            <RegExp dest="5+" output="&lt;title&gt;\1&lt;/title&gt;" input="$$6">
+                <RegExp dest="6" output="\1" input="$$1">
+                    <RegExp dest="6" output="\1" input="$$1">
+                        <expression>&lt;h1 class="pvi-product-title " itemprop="name"  title="([^&gt;]*)"&gt;</expression>
+                    </RegExp>
+                    <expression>class="pvi-product-originaltitle"&gt;([^&lt;]*)&lt;/h1&gt;</expression>
+                </RegExp>
+                <expression noclean="1"></expression>
+            </RegExp>
+            <RegExp dest="5+" output="&lt;year&gt;\1&lt;/year&gt;" input="$$6">
+                <RegExp dest="6" output="\1" input="$$1">
+                    <expression>&lt;small class="pvi-product-year"&gt;\(([0-9]*)\)&lt;/small&gt;</expression>
+                </RegExp>
+                <expression noclean="1"></expression>
+            </RegExp>
+            <RegExp dest="5+" output="&lt;thumb&gt;http://media.senscritique.com/media/\1/source_big/\2&lt;/thumb&gt;" input="$$1">
+                <expression>&lt;img  class="pvi-hero-poster" itemprop="image" src="http://media.senscritique.com/media/([^/]*)/[^/]*/([^"]*\.jpg)"</expression>
+            </RegExp>
+            <RegExp dest="5+" output="&lt;rating max=&quot;10&quot;&gt;\1&lt;/rating&gt;" input="$$1">
+                <expression>&lt;span itemprop="ratingValue" class="pvi-scrating-value"&gt;([^&lt;]*)&lt;/span&gt;</expression>
+            </RegExp>
+            <RegExp dest="5+" output="&lt;votes&gt;\1&lt;/votes&gt;" input="$$1">
+                <expression>&lt;span itemprop="ratingCount" class="d-hidden"&gt;([^&lt;]*)&lt;/span&gt;</expression>
+            </RegExp>
+            <RegExp dest="5+" output="&lt;genre&gt;\1&lt;/genre&gt;" input="$$1">
+                <expression repeat="yes">&lt;a href="/films/oeuvres/[^-]*--[^"]*" class="d-link-alt"&gt;([^&lt;]*)&lt;/a&gt;</expression>
+            </RegExp>
+            <RegExp dest="5+" output="&lt;director&gt;\1&lt;/director&gt;" input="$$1">
+                <expression>&lt;span itemscope itemprop="director" itemtype="http://schema.org/Person"&gt; &lt;a href="[^"]*" itemprop="url"&gt; &lt;span itemprop="name"&gt;([^&lt;]*)&lt;/span&gt;&lt;/a&gt;&lt;/span&gt;</expression>
+            </RegExp>
+            <RegExp dest="5+" output="&lt;originaltitle&gt;\1&lt;/originaltitle&gt;" input="$$1">
+                <expression>class="pvi-product-originaltitle"&gt;([^&lt;]*)&lt;/h1&gt;</expression>
+            </RegExp>
+            <RegExp dest="5+" output="&lt;plot&gt;\1&lt;/plot&gt;" input="$$1">
+                <expression>&lt;p class="pvi-productDetails-resume" data-rel="small-resume" itemprop="description"&gt;([^&lt;]*)&lt;/p&gt;</expression>
+            </RegExp>
+            <RegExp dest="5+" output="&lt;fanart&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;/fanart&gt;" input="$$1">
+                <expression>data-sc-video-poster="([^"]*)"</expression>
+            </RegExp>
+            <RegExp dest="5+" output="&lt;runtime&gt;\1&lt;/runtime&gt;" input="$$1">
+                <expression>&lt;meta itemprop="duration" content="[^"]*" /&gt;
+[ \t]*([^m]*min)
+</expression>
+            </RegExp>
+            <expression noclean="1"></expression>
+        </RegExp>
+    </GetDetails>
+</scraper>

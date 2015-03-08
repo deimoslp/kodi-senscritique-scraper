@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="video.scraper_critique" name="SensCritique Scraper" version="1.2.3" provider-name="Arthur BALL">
+	<requires>
+		<import addon="xbmc.python" version="2.19.0"/>
+	</requires>
+	<extension point="xbmc.metadata.scraper.movies" library="senscritique.xml">
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary lang="en">SensCritique scraper</summary>
+		<description lang="en">This addon fetches movie information from senscritique</description>
+		<disclaimer lang="en"></disclaimer>
+		<language></language>
+		<platform>all</platform>
+		<license>public domain</license>
+		<forum></forum>
+		<website>https://github.com/deimoslp/kodi-senscritique-scraper</website>
+		<email></email>
+		<source></source>
+	</extension>
+</addon>
